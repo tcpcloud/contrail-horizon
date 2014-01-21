@@ -1,0 +1,21 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+
+{% block form_id %}conn_entry_form{% endblock %}
+{% block form_action %}{% url horizon:project:networking:edit_conn_entries conn.id %}{% endblock %}
+{% block form_class %}{{ block.super }} horizontal split_quarter{% endblock %}
+
+{% block modal_id %}conn_entry_modal{% endblock %}
+{% block modal-header %}{% trans "Edit Connectivity" %}{% endblock %}
+
+{% block modal-body %}
+  <h3>{% trans "Add Connectivity Entry" %}</h3>
+  <fieldset>
+  {% include "horizon/common/_form_fields.html" %}
+  </fieldset>
+{% endblock %}
+
+{% block modal-footer %}
+  <input class="btn btn-primary pull-right" type="submit" value="{% trans "Add Entry" %}" />
+  <a href="{% url horizon:project:networking:index %}" class="btn secondary cancel close">{% trans "Cancel" %}</a>
+{% endblock %}

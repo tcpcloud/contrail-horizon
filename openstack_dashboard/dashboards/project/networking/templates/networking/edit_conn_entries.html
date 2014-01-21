@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Edit Connectivity Entries{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Edit Connectivity Entries") %}
+{% endblock page_header %}
+
+{% block main %}
+  {% include "project/networking/_edit_conn_entries.html" %}
+{% endblock %}
