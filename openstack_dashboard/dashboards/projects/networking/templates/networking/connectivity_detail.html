@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Networking{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Connectivity:db-net-conn") %}
+{% endblock page_header %}
+
+{% block main %}
+  <div id="connectivity_detail">
+    {{ conn_entry_detail_table.render }}
+  </div>
+{% endblock %}
