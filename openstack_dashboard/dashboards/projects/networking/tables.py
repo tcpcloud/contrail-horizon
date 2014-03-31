@@ -289,20 +289,20 @@ def get_instance_url(port):
         return None
 
 class NetInstancesTable(tables.DataTable):
+    port     = tables.Column(get_port_and_status, verbose_name=_("Port"))
+    ip       = tables.Column(get_instance_ip_addr, verbose_name=_("Fixed IPs"))
+    mac      = tables.Column("mac_address", verbose_name=_("Mac"))
     instance = tables.Column("inst_name",
                              link=get_instance_url,
-                             verbose_name=_("Instance"),
+                             verbose_name=_("Instance / Router"),
                              empty_value="-")
-    port     = tables.Column(get_port_and_status, verbose_name=_("Port Status"))
-    ip       = tables.Column(get_instance_ip_addr, verbose_name=_("IP"))
-    mac      = tables.Column("mac_address", verbose_name=_("Mac"))
 
     def sanitize_id(self, obj_id):
         return int(obj_id)
 
     class Meta:
         name = "net_instances"
-        verbose_name = _("Instances in the Network")
+        verbose_name = _("Ports")
         table_actions = (NetInstancesFilterAction, )
         multi_select = False
 

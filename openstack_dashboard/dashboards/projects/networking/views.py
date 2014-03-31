@@ -128,7 +128,7 @@ class NetPoliciesTab(tabs.TableTab):
 class NetInstancesTab(tabs.TableTab):
     table_classes = (NetInstancesTable,)
     template_name = "horizon/common/_detail_table.html"
-    name          = _("Associated Instances")
+    name          = _("Ports")
     slug          = "network_instances_tab_table"
 
  
