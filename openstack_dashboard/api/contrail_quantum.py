@@ -47,14 +47,14 @@ class ExtensionsContrailNet(NeutronAPIDictWrapper):
                      int(apiresource['contrail:instance_count']))
         apiresource['state'] = \
             'Up' if apiresource['admin_state_up'] else 'Down'
-        apiresource['summary'] = \
-            "{0} instances in {1} IP Blocks, {2} available IP addresses".format(
-            apiresource['contrail:instance_count'],
-            len(apiresource['subnets']),
-            apiresource['free_ip'])
         if not 'contrail:policys' in apiresource.keys():
             apiresource['contrail:policys'] = []
         apiresource['net_policies'] = apiresource['contrail:policys']
+        apiresource['summary'] = \
+            "{0} IP Blocks, {1} attached policies".format(
+            len(apiresource['subnets']),
+            len(apiresource['net_policies']))
+
         super(ExtensionsContrailNet, self).__init__(apiresource)
 
 

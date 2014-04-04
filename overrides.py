@@ -3,11 +3,19 @@ from django.utils.translation import ugettext_lazy as _
 import horizon
 
 from contrail_openstack_dashboard.openstack_dashboard.dashboards.projects.networking.panel import Networking
+from contrail_openstack_dashboard.openstack_dashboard.dashboards.projects.networking_topology.panel import NetworkingTopology
 
 class NetworkingPanel(horizon.Panel):
     name = "Networking"
     slug = "networking"
     urls = 'contrail_openstack_dashboard.openstack_dashboard.dashboards.projects.networking.urls'
+
+
+class NetworkingTopology(horizon.Panel):
+    name = _("Networking Topology")
+    slug = 'networking_topology'
+    urls = 'contrail_openstack_dashboard.openstack_dashboard.dashboards.projects.networking_topology.urls'
+
 
 try:
     projects_dashboard = horizon.get_dashboard("project")
@@ -27,10 +35,11 @@ try:
     except:
         pass
     try:
-        lb_panel = projects_dashboard.get_panel("network_topology")
+        lb_panel = projects_dashboard.get_panel("loadbalancers")
         projects_dashboard.unregister(lb_panel.__class__)
     except:
         pass
+
 except:
     pass
 
