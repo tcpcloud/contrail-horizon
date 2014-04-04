@@ -118,7 +118,8 @@ class JSONView(View):
             neutron_networks = api.neutron.network_list_for_tenant(
                 request,
                 request.user.tenant_id)
-            neutron_ports = api.neutron.port_list(request)
+            neutron_ports = api.neutron.port_list(request,
+                                                  tenant_id=request.user.tenant_id)
             neutron_routers = api.neutron.router_list(
                 request,
                 tenant_id=request.user.tenant_id)
