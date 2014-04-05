@@ -133,7 +133,7 @@ class JSONView(View):
                     'id': network.id,
                     'subnets': [{'cidr': subnet.cidr}
                                 for subnet in network.subnets],
-                    'router:external': True}
+                    'router:external': network['router:external']}
                     for network in neutron_networks]
         # Add public networks to the networks list
         for publicnet in neutron_public_networks:
@@ -151,7 +151,7 @@ class JSONView(View):
                     'name': publicnet.name,
                     'id': publicnet.id,
                     'subnets': subnets,
-                    'router:external': True})
+                    'router:external': public['router:external']})
         data['networks'] = sorted(networks,
                                   key=lambda x: x.get('router:external'),
                                   reverse=True)

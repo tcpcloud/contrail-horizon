@@ -254,11 +254,11 @@ contrail.network_topology = {
       .style('fill', function(d) { return self.network_color(d.id)});
     network
       .select('.network-name')
-      .attr('x', function(d) { return self.network_height/2 })
+      .attr('x', function(d) { return 15 })
       .text(function(d) { return d.name; });
     network
       .select('.network-cidr')
-      .attr('x', function(d) { return self.network_height - self.element_properties.cidr_margin })
+      .attr('x', function(d) { return self.element_properties.cidr_margin })
       .text(function(d) {
         var cidr = $.map(d.subnets,function(n, i){
           return n.cidr;
