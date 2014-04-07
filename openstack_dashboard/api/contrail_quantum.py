@@ -34,7 +34,7 @@ class ExtensionsContrailNet(NeutronAPIDictWrapper):
     """Wrapper for contrail neutron Networks"""
     _attrs = ['name', 'id', 'subnets', 'tenant_id', 'status',
               'admin_state_up', 'shared', 'contrail:instance_count',
-              'contrail:policys', 'contrail:subnet_ipam']
+              'contrail:policys', 'contrail:subnet_ipam', 'router:external']
 
     def __init__(self, apiresource):
         apiresource['free_ip'] = 0
@@ -77,7 +77,9 @@ def network_summary_for_tenant(request, tenant_id, **params):
     # So we need to specify tenant_id when calling network_list().
     networks = network_summary(request, tenant_id=tenant_id,
                                shared=False, **params)
-
+    # In the current Neutron API, there is no way to retrieve
+    # both owner networks and public networks in a single API call.
+    networks += network_summary(request, shared=True, **params)
     return networks
 
 

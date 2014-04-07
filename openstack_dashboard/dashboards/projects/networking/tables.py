@@ -33,6 +33,14 @@ def get_networks_tab_group_url(tab_name):
     return reverse("horizon:project:networking:index") + \
         "?tab=tab_group__" + tab_name + "_tab_table"
 
+class CheckNetworkEditable(object):
+    """Mixin class to determine the specified network is editable."""
+
+    def allowed(self, request, datum=None):
+        # Only administrator is allowed to create and manage shared networks.
+        if datum and datum.shared:
+            return False
+        return True
 
 class NetFilterAction(tables.FilterAction):
     def filter(self, table, networks, filter_string):
@@ -45,7 +53,7 @@ class NetFilterAction(tables.FilterAction):
 
         return filter(comp, networks)
 
-class DeleteNet(tables.DeleteAction):
+class DeleteNet(CheckNetworkEditable, tables.DeleteAction):
     data_type_singular = _("Network")
     data_type_plural = _("Networks")
 
@@ -76,13 +84,13 @@ class CreateNet(tables.LinkAction):
     url = "horizon:project:networking:create_network"
     classes = ("ajax-modal", "btn-create")
 
-class ModifyNetAssoc(tables.LinkAction):
+class ModifyNetAssoc(CheckNetworkEditable, tables.LinkAction):
     name = "edit_policy"
     verbose_name = _("Edit Policy")
     url = "horizon:project:networking:modify_net_assoc"
     classes = ("ajax-modal", "btn-edit")
 
-class EditIPBlocks(tables.LinkAction):
+class EditIPBlocks(CheckNetworkEditable, tables.LinkAction):
     name = "edit_ip_blocks"
     verbose_name = _("Edit IP Blocks")
     url = "horizon:project:networking:edit_ip_block"
@@ -92,6 +100,7 @@ class NetworksTable(tables.DataTable):
     name = tables.Column("name", verbose_name=_("Network"),
                          link=('horizon:project:networking:network_detail'))
     summ = tables.Column("summary", verbose_name=_("Summary"))
+    shared = tables.Column("shared", verbose_name=_("Shared"))
     status = tables.Column("state", verbose_name=_("Status"))
 
     class Meta:
