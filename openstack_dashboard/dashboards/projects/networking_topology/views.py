@@ -151,7 +151,7 @@ class JSONView(View):
                     'name': publicnet.name,
                     'id': publicnet.id,
                     'subnets': subnets,
-                    'router:external': public['router:external']})
+                    'router:external': publicnet['router:external']})
         data['networks'] = sorted(networks,
                                   key=lambda x: x.get('router:external'),
                                   reverse=True)
