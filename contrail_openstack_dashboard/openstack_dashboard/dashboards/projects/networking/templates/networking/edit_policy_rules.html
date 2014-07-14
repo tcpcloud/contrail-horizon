@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}Edit Policy Rules{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Edit Policy Rules") %}
+{% endblock page_header %}
+
+{% block main %}
+  {% include "project/networking/_edit_policy_rules.html" %}
+{% endblock %}

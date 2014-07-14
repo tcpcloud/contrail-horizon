@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}Edit IP Blocks{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Edit IP Blocks") %}
+{% endblock page_header %}
+
+{% block main %}
+  {% include "project/networking/_edit_ip_block.html" %}
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load i18n horizon humanize %}
+{% load url from future %}
+{% block title %}{% trans "Network Policy Detail" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Network Policy Detail") %}
+{% endblock page_header %}
+
+{% block main %}
+<div style="float:right"><a href="{% url 'horizon:project:networking:index' %}?tab=tab_group__policy_tab_table" class="btn btn-small"><< Back</a></div>
+<div class="row-fluid">
+  <div class="span12">
+  {{ tab_group.render }}
+  </div>
+</div>
+{% endblock %}

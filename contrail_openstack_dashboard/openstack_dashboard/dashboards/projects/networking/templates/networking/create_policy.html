@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}Create Network Policy{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Create Network Policy") %}
+{% endblock page_header %}
+
+{% block main %}
+  {% include 'project/networking/_create_policy.html' %}
+{% endblock %}
