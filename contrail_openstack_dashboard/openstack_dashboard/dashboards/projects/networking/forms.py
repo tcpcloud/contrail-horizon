@@ -363,7 +363,7 @@ class ModifyNetAssoc(forms.SelfHandlingForm):
                                policy_str[2]]
                 policy_list.append(pol_fq_name)
             params  = {'contrail:policys': policy_list}
-            network = network_modify(request,
+            network = network_update(request,
                                      network_id=data['net_id'], **params)
             messages.success(request,
                              _('Successfully edited polices for network: %s')
