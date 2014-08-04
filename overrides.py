@@ -2,19 +2,45 @@ from django.utils.translation import ugettext_lazy as _
 
 import horizon
 
-from contrail_openstack_dashboard.openstack_dashboard.dashboards.projects.networking.panel import Networking
-from contrail_openstack_dashboard.openstack_dashboard.dashboards.projects.networking_topology.panel import NetworkingTopology
+from contrail_openstack_dashboard.openstack_dashboard.dashboards.project.networking.panel \
+    import Networking
+from contrail_openstack_dashboard.openstack_dashboard.dashboards.admin.networking.panel \
+    import AdminNetworking
+from contrail_openstack_dashboard.openstack_dashboard.dashboards.project.networking_topology.panel \
+    import NetworkingTopology
+from contrail_openstack_dashboard.openstack_dashboard.dashboards.project.l3routers.panel \
+    import L3Routers
+from contrail_openstack_dashboard.openstack_dashboard.dashboards.admin.l3routers.panel \
+    import L3AdminRouters
 
 class NetworkingPanel(horizon.Panel):
     name = "Networking"
     slug = "networking"
-    urls = 'contrail_openstack_dashboard.openstack_dashboard.dashboards.projects.networking.urls'
+    urls = 'contrail_openstack_dashboard.openstack_dashboard.dashboards.project.networking.urls'
+
+
+class AdminNetworkingPanel(horizon.Panel):
+    name = "Networking"
+    slug = "networking"
+    urls = 'contrail_openstack_dashboard.openstack_dashboard.dashboards.admin.networking.urls'
 
 
 class NetworkingTopology(horizon.Panel):
     name = _("Networking Topology")
     slug = 'networking_topology'
-    urls = 'contrail_openstack_dashboard.openstack_dashboard.dashboards.projects.networking_topology.urls'
+    urls = 'contrail_openstack_dashboard.openstack_dashboard.dashboards.project.networking_topology.urls'
+
+
+class L3Routers(horizon.Panel):
+    name = _("Routers")
+    slug = 'l3routers'
+    urls = 'contrail_openstack_dashboard.openstack_dashboard.dashboards.project.l3routers.urls'
+
+
+class L3AdminRouters(horizon.Panel):
+    name = _("Routers")
+    slug = 'l3routers'
+    urls = 'contrail_openstack_dashboard.openstack_dashboard.dashboards.admin.l3routers.urls'
 
 
 try:
