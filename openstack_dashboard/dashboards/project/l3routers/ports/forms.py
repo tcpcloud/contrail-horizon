@@ -41,7 +41,7 @@ class AddInterface(forms.SelfHandlingForm):
     router_id = forms.CharField(label=_("Router ID"),
                                 widget=forms.TextInput(
                                     attrs={'readonly': 'readonly'}))
-    failure_url = 'horizon:project:routers:detail'
+    failure_url = 'horizon:project:l3routers:detail'
 
     def __init__(self, request, *args, **kwargs):
         super(AddInterface, self).__init__(request, *args, **kwargs)
@@ -149,7 +149,7 @@ class SetGatewayForm(forms.SelfHandlingForm):
     router_id = forms.CharField(label=_("Router ID"),
                                 widget=forms.TextInput(
                                     attrs={'readonly': 'readonly'}))
-    failure_url = 'horizon:project:routers:index'
+    failure_url = 'horizon:project:l3routers:index'
 
     def __init__(self, request, *args, **kwargs):
         super(SetGatewayForm, self).__init__(request, *args, **kwargs)
