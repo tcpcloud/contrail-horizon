@@ -71,7 +71,7 @@ class CreateNetworkInfoAction(workflows.Action):
         name = _("Network")
         help_text = _("From here you can create a new network.\n"
                       "In addition a subnet associated with the network "
-                      "can be created in the next panel and Policies can"
+                      "can be created in the next panel and Policies can "
                       "be associated to this network")
 
 
