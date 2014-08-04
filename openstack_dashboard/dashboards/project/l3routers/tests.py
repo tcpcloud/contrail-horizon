@@ -23,8 +23,8 @@ from openstack_dashboard.test import helpers as test
 
 class RouterTests(test.TestCase):
     DASHBOARD = 'project'
-    INDEX_URL = reverse('horizon:%s:routers:index' % DASHBOARD)
-    DETAIL_PATH = 'horizon:%s:routers:detail' % DASHBOARD
+    INDEX_URL = reverse('horizon:%s:l3routers:index' % DASHBOARD)
+    DETAIL_PATH = 'horizon:%s:l3routers:detail' % DASHBOARD
 
     def _mock_external_network_list(self):
         search_opts = {'router:external': True}
@@ -50,7 +50,7 @@ class RouterTests(test.TestCase):
 
         res = self.client.get(self.INDEX_URL)
 
-        self.assertTemplateUsed(res, '%s/routers/index.html' % self.DASHBOARD)
+        self.assertTemplateUsed(res, '%s/l3routers/index.html' % self.DASHBOARD)
         routers = res.context['table'].data
         self.assertItemsEqual(routers, self.routers.list())
 
@@ -65,7 +65,7 @@ class RouterTests(test.TestCase):
 
         res = self.client.get(self.INDEX_URL)
 
-        self.assertTemplateUsed(res, '%s/routers/index.html' % self.DASHBOARD)
+        self.assertTemplateUsed(res, '%s/l3routers/index.html' % self.DASHBOARD)
         self.assertEqual(len(res.context['table'].data), 0)
         self.assertMessageCount(res, error=1)
 
@@ -82,10 +82,10 @@ class RouterTests(test.TestCase):
         self.mox.ReplayAll()
 
         res = self.client.get(reverse('horizon:%s'
-                                      ':routers:detail' % self.DASHBOARD,
+                                      ':l3routers:detail' % self.DASHBOARD,
                                       args=[router.id]))
 
-        self.assertTemplateUsed(res, '%s/routers/detail.html' % self.DASHBOARD)
+        self.assertTemplateUsed(res, '%s/l3routers/detail.html' % self.DASHBOARD)
         ports = res.context['interfaces_table'].data
         self.assertItemsEqual(ports, [self.ports.first()])
 
@@ -100,15 +100,15 @@ class RouterTests(test.TestCase):
         self.mox.ReplayAll()
 
         res = self.client.get(reverse('horizon:%s'
-                                      ':routers:detail' % self.DASHBOARD,
+                                      ':l3routers:detail' % self.DASHBOARD,
                                       args=[router.id]))
         self.assertRedirectsNoFollow(res, self.INDEX_URL)
 
 
 class RouterActionTests(test.TestCase):
     DASHBOARD = 'project'
-    INDEX_URL = reverse('horizon:%s:routers:index' % DASHBOARD)
-    DETAIL_PATH = 'horizon:%s:routers:detail' % DASHBOARD
+    INDEX_URL = reverse('horizon:%s:l3routers:index' % DASHBOARD)
+    DETAIL_PATH = 'horizon:%s:l3routers:detail' % DASHBOARD
 
     @test.create_stubs({api.neutron: ('router_create',)})
     def test_router_create_post(self):
@@ -118,7 +118,7 @@ class RouterActionTests(test.TestCase):
         self.mox.ReplayAll()
 
         form_data = {'name': router.name}
-        url = reverse('horizon:%s:routers:create' % self.DASHBOARD)
+        url = reverse('horizon:%s:l3routers:create' % self.DASHBOARD)
         res = self.client.post(url, form_data)
 
         self.assertNoFormErrors(res)
@@ -132,7 +132,7 @@ class RouterActionTests(test.TestCase):
         self.mox.ReplayAll()
 
         form_data = {'name': router.name}
-        url = reverse('horizon:%s:routers:create' % self.DASHBOARD)
+        url = reverse('horizon:%s:l3routers:create' % self.DASHBOARD)
         res = self.client.post(url, form_data)
 
         self.assertNoFormErrors(res)
@@ -281,7 +281,7 @@ class RouterActionTests(test.TestCase):
                      'router_name': router.name,
                      'network_id': network.id}
 
-        url = reverse('horizon:%s:routers:setgateway' % self.DASHBOARD,
+        url = reverse('horizon:%s:l3routers:setgateway' % self.DASHBOARD,
                       args=[router.id])
         res = self.client.post(url, form_data)
         self.assertNoFormErrors(res)
@@ -309,7 +309,7 @@ class RouterActionTests(test.TestCase):
                      'router_name': router.name,
                      'network_id': network.id}
 
-        url = reverse('horizon:%s:routers:setgateway' % self.DASHBOARD,
+        url = reverse('horizon:%s:l3routers:setgateway' % self.DASHBOARD,
                       args=[router.id])
         res = self.client.post(url, form_data)
         self.assertNoFormErrors(res)
