@@ -84,6 +84,7 @@ def policy_net_display(nets):
         if not net['subnet'] == None:
             net_disp += str(net['subnet']['ip_prefix']) + "/" + \
                         str(net['subnet']['ip_prefix_len'])
+
         if not net['virtual_network'] == None:
             net_disp += 'network '
             net_fqn = net['virtual_network'].split(':')
@@ -92,6 +93,15 @@ def policy_net_display(nets):
                                              net_fqn[1])
             else:
                 net_disp += net_fqn[0].upper()
+
+        if not net['network_policy'] == None:
+            net_disp += 'policy '
+            pol_fqn = net['network_policy'].split(':')
+            if len(pol_fqn) == 3:
+                net_disp += "{0} ({1})".format(pol_fqn[2],
+                                             pol_fqn[1])
+            else:
+                net_disp += pol_fqn[0].upper()
 
     return net_disp
 
