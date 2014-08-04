@@ -300,7 +300,8 @@ class AddRule(forms.SelfHandlingForm):
             rule['src_addresses'] = [{
                                  'security_group' : None,
                                  'subnet': None,
-                                 'virtual_network': data['srcnets']
+                                 'virtual_network': data['srcnets'],
+                                 'network_policy': None
                                }]
         elif data['srctype'] == 'srccidr':
             ip = IPNetwork(data['srccidr'])
@@ -309,7 +310,8 @@ class AddRule(forms.SelfHandlingForm):
                                  'subnet': {'ip_prefix': str(ip.ip),
                                             'ip_prefix_len': ip.prefixlen
                                            },
-                                 'virtual_network': None
+                                 'virtual_network': None,
+                                 'network_policy': None
                                }]
         elif data['srctype'] == 'srcpols':
             rule['src_addresses'] = [{
@@ -323,7 +325,8 @@ class AddRule(forms.SelfHandlingForm):
             rule['dst_addresses'] = [{
                                  'security_group' : None,
                                  'subnet': None,
-                                 'virtual_network': data['dstnets']
+                                 'virtual_network': data['dstnets'],
+                                 'network_policy': None
                                }]
         elif data['dsttype'] == 'dstcidr':
             ip = IPNetwork(data['dstcidr'])
@@ -332,7 +335,8 @@ class AddRule(forms.SelfHandlingForm):
                                  'subnet': {'ip_prefix': str(ip.ip),
                                             'ip_prefix_len': ip.prefixlen
                                            },
-                                 'virtual_network': None
+                                 'virtual_network': None,
+                                 'network_policy': None
                                }]
         elif data['dsttype'] == 'dstpols':
             rule['dst_addresses'] = [{
