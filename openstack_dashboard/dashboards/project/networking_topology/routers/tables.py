@@ -15,7 +15,7 @@
 #    under the License.
 
 from django.utils.translation import ugettext_lazy as _  # noqa
-from openstack_dashboard.dashboards.project.routers import\
+from contrail_openstack_dashboard.openstack_dashboard.dashboards.project.l3routers import\
     tables as r_tables
 
 
