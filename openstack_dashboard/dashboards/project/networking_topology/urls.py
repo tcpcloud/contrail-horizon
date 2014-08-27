@@ -33,4 +33,9 @@ urlpatterns = patterns('contrail_openstack_dashboard.openstack_dashboard.dashboa
         name='launchinstance'),
     url(r'^createnetwork$', views.NTCreateNetworkView.as_view(),
         name='createnetwork'),
+    url(r'^router$', views.RouterView.as_view(), name='router'),
+    url(r'^router/(?P<router_id>[^/]+)/$', views.RouterDetailView.as_view(),
+        name='detail'),
+    url(r'^createrouter$', views.NTCreateRouterView.as_view(),
+        name='createrouter'),
 )
