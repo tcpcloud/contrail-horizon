@@ -16,7 +16,7 @@
 
 
 from django.utils.translation import ugettext_lazy as _  # noqa
-from openstack_dashboard.dashboards.project.routers.ports import\
+from contrail_openstack_dashboard.openstack_dashboard.dashboards.project.l3routers.ports import\
     tables as p_tables
 
 

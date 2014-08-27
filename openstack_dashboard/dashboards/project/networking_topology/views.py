@@ -44,6 +44,12 @@ from contrail_openstack_dashboard.openstack_dashboard.dashboards.project.network
     views as n_views
 from contrail_openstack_dashboard.openstack_dashboard.dashboards.project.networking import\
     workflows as n_workflows
+from contrail_openstack_dashboard.openstack_dashboard.dashboards.project.l3routers import\
+    views as r_views
+
+class NTCreateRouterView (r_views.CreateView):
+    template_name = 'project/networking_topology/create_router.html'
+    success_url = reverse_lazy("horizon:project:networking_topology:index")
 
 class NTCreateNetwork (n_workflows.CreateNetwork):
     def get_success_url(self):
@@ -67,6 +73,15 @@ class NTLaunchInstanceView (i_views.LaunchInstanceView):
 
 class InstanceView (i_views.IndexView):
     table_class = instances_tables.InstancesTable
+    template_name = 'project/networking_topology/iframe.html'
+
+class RouterView (r_views.IndexView):
+    table_class = routers_tables.RoutersTable
+    template_name = 'project/networking_topology/iframe.html'
+
+
+class RouterDetailView (r_views.DetailView):
+    table_classes = (ports_tables.PortsTable, )
     template_name = 'project/networking_topology/iframe.html'
 
 
@@ -200,5 +215,7 @@ class JSONView(View):
                          'fixed_ips': []}
             data['ports'].append(fake_port)
 
+        self.add_resource_url('horizon:project:l3routers:detail',
+                              data['routers'])
         json_string = json.dumps(data, ensure_ascii=False)
         return HttpResponse(json_string, mimetype='text/json')
