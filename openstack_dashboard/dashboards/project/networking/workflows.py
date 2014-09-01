@@ -133,9 +133,9 @@ class CreateSubnetInfoAction(workflows.Action):
                                  for ipam in ipams]
                 ipam_choices.append(('None', 'None'))
             else:
-                ipam_choices = [('', 'Create a new IPAM')]
+                ipam_choices = [('None', 'Create a new IPAM')]
         except:
-            ipam_choices = []
+            ipam_choices = [('None', 'None')]
             exceptions.handle(self.request, _('Unable to retrieve ipam list'))
         self.fields['ipam'].choices = ipam_choices
 
