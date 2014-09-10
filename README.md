@@ -18,3 +18,9 @@ Requires contrail neutronclient.
 Add following to Openstack Dashboard settings i.e. /etc/openstack-dashboard/local_settings.py
 
     HORIZON_CONFIG['customization_module'] = 'contrail_openstack_dashboard.overrides'
+
+### Contributing code
+---
+* Sign the [CLA](https://secure.echosign.com/public/hostedForm?formid=6G36BHPX974EXY)
+* Push your changes to a topic branch in your fork of the repository.
+* Submit a pull request to the contrail repository.
