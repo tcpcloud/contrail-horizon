@@ -102,7 +102,7 @@ class CreateSubnetInfoAction(workflows.Action):
                                       "(e.g. 192.168.0.0/24)"),
                           version=fields.IPv4 | fields.IPv6,
                           mask=True)
-    ip_version = forms.ChoiceField(choices=[(4, 'IPv4')],
+    ip_version = forms.ChoiceField(choices=[(4, 'IPv4'), (6, 'IPv6')],
                                    label=_("IP Version"))
     gateway_ip = fields.IPField(
         label=_("Gateway IP"),
