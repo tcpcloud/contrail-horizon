@@ -29,115 +29,6 @@ from openstack_dashboard.api.neutron import *
 
 LOG = logging.getLogger(__name__)
 
-
-class ExtensionsContrailNet(NeutronAPIDictWrapper):
-    """Wrapper for contrail neutron Networks"""
-    _attrs = ['name', 'id', 'subnets', 'tenant_id', 'status',
-              'admin_state_up', 'shared', 'contrail:instance_count',
-              'contrail:policys', 'contrail:subnet_ipam', 'router:external']
-
-    def __init__(self, apiresource):
-        apiresource['free_ip'] = 0
-        if not 'contrail:subnet_ipam' in apiresource.keys():
-            apiresource['contrail:subnet_ipam'] = []
-        else:
-            for s in apiresource['contrail:subnet_ipam']:
-                apiresource['free_ip'] += \
-                    (IPNetwork(s['subnet_cidr']).size - 3 - \
-                     int(apiresource['contrail:instance_count']))
-        apiresource['state'] = \
-            'Up' if apiresource['admin_state_up'] else 'Down'
-        if not 'contrail:policys' in apiresource.keys():
-            apiresource['contrail:policys'] = []
-        apiresource['net_policies'] = apiresource['contrail:policys']
-        apiresource['summary'] = \
-            "{0} IP Blocks, {1} attached policies".format(
-            len(apiresource['subnets']),
-            len(apiresource['net_policies']))
-
-        super(ExtensionsContrailNet, self).__init__(apiresource)
-
-
-def network_summary(request, **params):
-    LOG.debug("network_summary(): params=%s" % (params))
-    networks = neutronclient(request).list_networks(**params).get('networks')
-    return [ExtensionsContrailNet(n) for n in networks]
-
-
-def network_summary_for_tenant(request, tenant_id, **params):
-    """Return a network summary list available for the tenant.
-    The list contains networks owned by the tenant and public networks.
-    If requested_networks specified, it searches requested_networks only.
-    """
-    LOG.debug("network_summary_for_tenant(): tenant_id=%s, params=%s"
-              % (tenant_id, params))
-
-    # If a user has admin role, network list returned by Neutron API
-    # contains networks that do not belong to that tenant.
-    # So we need to specify tenant_id when calling network_list().
-    networks = network_summary(request, tenant_id=tenant_id,
-                               shared=False, **params)
-    # In the current Neutron API, there is no way to retrieve
-    # both owner networks and public networks in a single API call.
-    networks += network_summary(request, shared=True, **params)
-    return networks
-
-
-def network_summary_get(request, network_id, **params):
-    LOG.debug("network_summary_get(): netid=%s, params=%s" %
-              (network_id, params))
-    network = neutronclient(request).show_network(network_id,
-                                                  **params).get('network')
-    return ExtensionsContrailNet(network)
-
-
-class ExtensionsContrailIPBlock(NeutronAPIDictWrapper):
-    """Wrapper for contrail neutron IP Blocks"""
-    _attrs = ['name', 'enable_dhcp', 'network_id', 'tenant_id','gateway_ip'
-              'contrail:ipam_fq_name','allocation_pools', 'ip_version',
-              'cidr', 'contrail:instance_count', 'id']
-
-    def __init__(self, apiresource):
-        apiresource['inst_count'] = apiresource['contrail:instance_count']
-        apiresource['ipam'] = apiresource['contrail:ipam_fq_name'][2]
-        apiresource['summary'] = \
-            "IPv{0} addressing, {1} instances assigned IPs".format(
-            apiresource['ip_version'],
-            apiresource['contrail:instance_count'])
-        apiresource['addr_type'] = \
-            'Dhcp' if apiresource['enable_dhcp'] else 'Fixed'
-        super(ExtensionsContrailIPBlock, self).__init__(apiresource)
-
-
-def ip_block_summary(request, **params):
-    LOG.debug("ip_block_summary(): params=%s" % (params))
-    ip_blocks = neutronclient(request).list_subnets(**params).get('subnets')
-    return [ExtensionsContrailIPBlock(i) for i in ip_blocks]
-
-
-class ExtensionsContrailNetInstances(NeutronAPIDictWrapper):
-    """Wrapper for contrail neutron instances for a network"""
-    _attrs = ['name', 'id', 'network_id', 'tenant_id',
-              'admin_state_up','status', 'fixed_ips'
-              'mac_address', 'device_id']
-
-
-    def __init__(self, apiresource):
-        apiresource['ip'] = []
-        if 'fixed_ips' in apiresource.keys() and len(apiresource['fixed_ips']):
-            apiresource['ip'] = apiresource['fixed_ips']
-        apiresource['inst_name'] = apiresource['device_id']
-        apiresource['state'] = \
-            'Up' if apiresource['admin_state_up'] else 'Down'
-        super(ExtensionsContrailNetInstances, self).__init__(apiresource)
-
-
-def net_instances_summary(request, **params):
-    LOG.debug("net_instances_summary(): params=%s" % (params))
-    instances = neutronclient(request).list_ports(**params).get('ports')
-    return [ExtensionsContrailNetInstances(i) for i in instances]
-
-
 class ExtensionsContrailIpam(NeutronAPIDictWrapper):
     """Wrapper for contrail neutron ipam"""
     _attrs = ['name', 'id', 'mgmt', 'tenant_id']
@@ -153,9 +44,7 @@ class ExtensionsContrailIpam(NeutronAPIDictWrapper):
             apiresource['addr_type'] = "Unknown"
         if not 'dhcp_option_list' in apiresource['mgmt'].keys():
             apiresource['mgmt'] = {'dhcp_option_list':{'dhcp_option':[]}}
-        apiresource['summary'] = \
-            "{0} IP Blocks in {1} networks, {2} instances".format('xx',
-                                                               'yy','zz')
+
         super(ExtensionsContrailIpam, self).__init__(apiresource)
 
 
@@ -237,24 +126,15 @@ class ExtensionsContrailPolicy(NeutronAPIDictWrapper):
             or (apiresource['entries']['policy_rule'] == None):
             apiresource['entries'] = {}
             apiresource['entries']['policy_rule'] = []
-            apiresource['rule_count'] = 0
-        else:
-            apiresource['rule_count'] = len(apiresource['entries']['policy_rule'])
 
         if 'nets_using' in apiresource.keys():
             apiresource['policy_net_ref_cnt'] = len(apiresource['nets_using'])
         else:
             apiresource['nets_using'] = []
             apiresource['policy_net_ref_cnt'] = 0
-        apiresource['summary'] = \
-            "Policy contains {0} rules and it is attached to " \
-            "{1} networks".format(apiresource['rule_count'],
-                                 apiresource['policy_net_ref_cnt'])
         i = 1
         for rule in apiresource['entries']['policy_rule']:
-            rule['rule_sequence'] = {}
-            rule['rule_sequence']['major'] = i
-            rule['rule_sequence']['minor'] = 0
+            rule['rule_sequence'] = i
             i = i + 1
 
 def policy_summary(request, **params):
@@ -306,4 +186,3 @@ def policy_modify(request, policy_id, **kwargs):
     policy = neutronclient(request).update_policy(policy_id,
                                               body=body).get('policy')
     return ExtensionsContrailPolicy(policy)
-
