@@ -1,0 +1,20 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block form_id %}create_policy_rule_form{% endblock %}
+{% block form_action %}{% url 'horizon:project:networking:policy:add_rule' policy_id %}{% endblock %}
+{% block form_class %}{{ block.super }} horizontal split_half{% endblock %}
+{% block modal-header %}{% trans "Add Rule" %}{% endblock %}
+{% block modal_id %}create_policy_rule_modal{% endblock %}
+
+{% block modal-body %}
+<fieldset>
+  {% include "horizon/common/_form_fields.html" %}
+</fieldset>
+{% endblock %}
+
+{% block modal-footer %}
+  <input class="btn btn-primary pull-right" type="submit" value="{% trans "Add" %}" />
+  <a href="{% url 'horizon:project:networking:policy:detail' policy_id %}" class="btn secondary cancel close">{% trans "Cancel" %}</a>
+{% endblock %}
