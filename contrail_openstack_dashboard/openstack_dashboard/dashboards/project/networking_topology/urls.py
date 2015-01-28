@@ -19,8 +19,7 @@
 #    under the License.
 
 
-from django.conf.urls.defaults import patterns  # noqa
-from django.conf.urls.defaults import url  # noqa
+from django.conf.urls import patterns, url #noqa
 
 from . import views
 
