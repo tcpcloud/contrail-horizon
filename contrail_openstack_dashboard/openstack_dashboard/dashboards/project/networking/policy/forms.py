@@ -27,6 +27,7 @@ from django.utils.translation import ugettext_lazy as _  # noqa
 from horizon import exceptions
 from horizon import forms
 from horizon import messages
+from horizon.forms import fields
 from horizon.utils import validators as utils_validators
 
 from openstack_dashboard import api
@@ -133,12 +134,12 @@ class AddRule(forms.SelfHandlingForm):
                                    'class': 'switchable',
                                    'data-slug': 'dsttype'}))
 
-    srccidr = forms.IPField(label=_("Source CIDR"),
+    srccidr = fields.IPField(label=_("Source CIDR"),
                           required=False,
                           initial="0.0.0.0/0",
                           help_text=_("Classless Inter-Domain Routing "
                                       "(e.g. 192.168.0.0/24)"),
-                          version=forms.IPv4,
+                          version=fields.IPv4,
                           mask=True,
                           widget=forms.TextInput(
                               attrs={'class': 'switched',
@@ -159,12 +160,12 @@ class AddRule(forms.SelfHandlingForm):
                                            'data-switch-on': 'srctype',
                                            'data-srctype-srcpols': _('Source Network Policy')}))
 
-    dstcidr = forms.IPField(label=_("Destination CIDR"),
+    dstcidr = fields.IPField(label=_("Destination CIDR"),
                           required=False,
                           initial="0.0.0.0/0",
                           help_text=_("Classless Inter-Domain Routing "
                                       "(e.g. 192.168.0.0/24)"),
-                          version=forms.IPv4,
+                          version=fields.IPv4,
                           mask=True,
                           widget=forms.TextInput(
                               attrs={'class': 'switched',

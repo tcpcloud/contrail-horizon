@@ -22,6 +22,7 @@ from django.utils.translation import ugettext_lazy as _  # noqa
 from horizon import exceptions
 from horizon import forms
 from horizon import messages
+from horizon.forms import fields
 from openstack_dashboard import api
 
 LOG = logging.getLogger(__name__)
@@ -29,11 +30,11 @@ LOG = logging.getLogger(__name__)
 
 class AddInterface(forms.SelfHandlingForm):
     subnet_id = forms.ChoiceField(label=_("Subnet"))
-    ip_address = forms.IPField(
+    ip_address = fields.IPField(
         label=_("IP Address (optional)"), required=False, initial="",
         help_text=_("You can specify an IP address of the interface "
                     "created if you want (e.g. 192.168.0.254)."),
-        version=forms.IPv4 | forms.IPv6, mask=False)
+        version=fields.IPv4 | fields.IPv6, mask=False)
     router_name = forms.CharField(label=_("Router Name"),
                                   widget=forms.TextInput(
                                       attrs={'readonly': 'readonly'}))

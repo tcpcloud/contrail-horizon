@@ -24,6 +24,7 @@ from django.utils.translation import ugettext_lazy as _  # noqa
 from horizon import exceptions
 from horizon import forms
 from horizon import messages
+from horizon.forms import fields
 from horizon import workflows
 
 from openstack_dashboard import api
@@ -94,16 +95,16 @@ class CreateSubnetInfoAction(workflows.Action):
                                  add_item_link=IPAM_CREATE_URL,
                                  help_text=_("Choose IPAM that will be "
                                              "associated with the IP Block"))
-    cidr = forms.IPField(label=_("Network Address"),
+    cidr = fields.IPField(label=_("Network Address"),
                           required=False,
                           initial="",
                           help_text=_("Network address in CIDR format "
                                       "(e.g. 192.168.0.0/24)"),
-                          version=forms.IPv4 | forms.IPv6,
+                          version=fields.IPv4 | fields.IPv6,
                           mask=True)
     ip_version = forms.ChoiceField(choices=[(4, 'IPv4'), (6, 'IPv6')],
                                    label=_("IP Version"))
-    gateway_ip = forms.IPField(
+    gateway_ip = fields.IPField(
         label=_("Gateway IP"),
         required=False,
         initial="",
@@ -114,7 +115,7 @@ class CreateSubnetInfoAction(workflows.Action):
                     "If you use the default, leave blank. "
                     "If you want to use no gateway, "
                     "check 'Disable Gateway' below."),
-        version=forms.IPv4,
+        version=fields.IPv4,
         mask=False)
     no_gateway = forms.BooleanField(label=_("Disable Gateway"),
                                     initial=False, required=False)

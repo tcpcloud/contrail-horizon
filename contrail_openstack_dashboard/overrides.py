@@ -12,6 +12,8 @@ from contrail_openstack_dashboard.openstack_dashboard.dashboards.project.l3route
     import L3Routers
 from contrail_openstack_dashboard.openstack_dashboard.dashboards.admin.l3routers.panel \
     import L3AdminRouters
+from contrail_openstack_dashboard.openstack_dashboard.dashboards.project.lbaas.panel \
+    import LoadBalancer
 
 class NetworkingPanel(horizon.Panel):
     name = "Networking"
@@ -41,6 +43,12 @@ class L3AdminRouters(horizon.Panel):
     name = _("Routers")
     slug = 'l3routers'
     urls = 'contrail_openstack_dashboard.openstack_dashboard.dashboards.admin.l3routers.urls'
+
+
+class LoadBalancer(horizon.Panel):
+    name = _("Load Balancers")
+    slug = 'lbaas'
+    urls = 'contrail_openstack_dashboard.openstack_dashboard.dashboards.admin.lbaas.urls'
 
 
 try:

@@ -27,6 +27,7 @@ from django.utils.translation import ugettext_lazy as _  # noqa
 from horizon import exceptions
 from horizon import forms
 from horizon import messages
+from horizon.forms import fields
 from horizon.utils import validators as utils_validators
 
 from openstack_dashboard import api
@@ -60,20 +61,20 @@ class CreateNetworkIpam(forms.SelfHandlingForm):
                                      'data-switch-on': 'dnsmethod',
                                      'data-dnsmethod-vdns': _('Virtual DNS')}))
 
-    tenantdns = forms.IPField(label=_("Tenant DNS Server IP"),
+    tenantdns = fields.IPField(label=_("Tenant DNS Server IP"),
                           required=False,
                           help_text=_("Tenant managed DNS Server's IP Address"),
-                          version=forms.IPv4,
+                          version=fields.IPv4,
                           mask=False,
                           widget=forms.TextInput(
                               attrs={'class': 'switched',
                                      'data-switch-on': 'dnsmethod',
                                      'data-dnsmethod-tenantdns': _('Tenant DNS Server IP')}))
 
-    ntpip = forms.IPField(label=_("NTP Server IP"),
+    ntpip = fields.IPField(label=_("NTP Server IP"),
                           required=False,
                           help_text=_("IP Address of the NTP Server"),
-                          version=forms.IPv4,
+                          version=fields.IPv4,
                           mask=False,
                           widget=forms.TextInput())
 
@@ -178,20 +179,20 @@ class UpdateIpam(forms.SelfHandlingForm):
                                      'data-switch-on': 'dnsmethod',
                                      'data-dnsmethod-vdns': _('Virtual DNS')}))
 
-    tenantdns = forms.IPField(label=_("Tenant DNS Server IP"),
+    tenantdns = fields.IPField(label=_("Tenant DNS Server IP"),
                           required=False,
                           help_text=_("Tenant managed DNS Server's IP Address"),
-                          version=forms.IPv4,
+                          version=fields.IPv4,
                           mask=False,
                           widget=forms.TextInput(
                               attrs={'class': 'switched',
                                      'data-switch-on': 'dnsmethod',
                                      'data-dnsmethod-tenantdns': _('Tenant DNS Server IP')}))
 
-    ntpip = forms.IPField(label=_("NTP Server IP"),
+    ntpip = fields.IPField(label=_("NTP Server IP"),
                           required=False,
                           help_text=_("IP Address of the NTP Server"),
-                          version=forms.IPv4,
+                          version=fields.IPv4,
                           mask=False,
                           widget=forms.TextInput())
 
