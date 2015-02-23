@@ -33,14 +33,14 @@ class PoolsTab(tabs.TableTab):
 
     def get_poolstable_data(self):
         try:
-            pools = api.lbaas.pool_list(self.tab_group.request)
-            poolsFormatted = [p.readable(self.tab_group.request) for
-                              p in pools]
+            tenant_id = self.request.user.tenant_id
+            pools = api.lbaas.pool_list(self.tab_group.request,
+                                        tenant_id=tenant_id)
         except Exception:
-            poolsFormatted = []
+            pools = []
             exceptions.handle(self.tab_group.request,
                               _('Unable to retrieve pools list.'))
-        return poolsFormatted
+        return pools
 
 
 class MembersTab(tabs.TableTab):
@@ -51,14 +51,14 @@ class MembersTab(tabs.TableTab):
 
     def get_memberstable_data(self):
         try:
-            members = api.lbaas.member_list(self.tab_group.request)
-            membersFormatted = [m.readable(self.tab_group.request) for
-                                m in members]
+            tenant_id = self.request.user.tenant_id
+            members = api.lbaas.member_list(self.tab_group.request,
+                                            tenant_id=tenant_id)
         except Exception:
-            membersFormatted = []
+            members = []
             exceptions.handle(self.tab_group.request,
                               _('Unable to retrieve member list.'))
-        return membersFormatted
+        return members
 
 
 class MonitorsTab(tabs.TableTab):
@@ -69,8 +69,10 @@ class MonitorsTab(tabs.TableTab):
 
     def get_monitorstable_data(self):
         try:
+            tenant_id = self.request.user.tenant_id
             monitors = api.lbaas.pool_health_monitor_list(
-                self.tab_group.request)
+                self.tab_group.request,
+                tenant_id=tenant_id)
         except Exception:
             monitors = []
             exceptions.handle(self.tab_group.request,
