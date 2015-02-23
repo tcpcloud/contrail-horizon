@@ -26,7 +26,7 @@ For Juno release add these lines into your local_settings.py
 
 .. code-block:: python
 
-	from openstack_dashboard.settings import STATICFILES_DIRS
+    from openstack_dashboard.settings import STATICFILES_DIRS
     from contrail_openstack_dashboard.openstack_dashboard.xstatic.pkg import contrail
 
     pkg = __import__('contrail_openstack_dashboard.openstack_dashboard')
