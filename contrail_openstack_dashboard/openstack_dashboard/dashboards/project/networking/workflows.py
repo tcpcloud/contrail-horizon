@@ -580,7 +580,7 @@ class ModifyNetworkPolicyAction(workflows.MembershipAction):
         params = {'contrail:policys': policy_list}
         net_id = data['network_id']
         try:
-            network_modify(request,
+            network_update(request,
                            network_id=net_id, **params)
         except Exception:
             exceptions.handle(request, _('Unable to modify Associated Policies.'))
